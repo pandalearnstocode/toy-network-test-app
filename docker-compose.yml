@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  application_layer:
+    container_name: application_layer
+    build: application_layer/
+    command: bash -c 'while !</dev/tcp/project_db/5432; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0 --reload'
+    networks:
+      - backend-network
+      - web
+  ui_layer:
+    container_name: ui_layer
+    build: ui_layer/
+    command: streamlit run app/main.py --server.address="0.0.0.0" --server.port="8501"  --server.headless=true
+    networks:
+      - backend-network
+      - web
+    labels:
+      - traefik.http.routers.blog.rule=Host(`app.marketingbudgetallocator.live`)
+      - traefik.http.routers.blog.tls=true
+      - traefik.http.routers.blog.tls.certresolver=lets-encrypt
+      - traefik.port=8501
+
+networks:
+  backend-network:
+    driver: bridge
+    external: false
+  web:
+    external: true

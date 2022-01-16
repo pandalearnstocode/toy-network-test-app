@@ -1,0 +1,12 @@
+[http.middlewares.simpleAuth.basicAuth]
+  users = [
+    "admin:$apr1$Hmvc9WeJ$TUai./XVuS4nHHTayvDPl0"
+  ]
+
+[http.routers.api]
+  rule = "Host(`monitor.app.marketingbudgetallocator.live`)"
+  entrypoints = ["websecure"]
+  middlewares = ["simpleAuth"]
+  service = "api@internal"
+  [http.routers.api.tls]
+    certResolver = "lets-encrypt"
