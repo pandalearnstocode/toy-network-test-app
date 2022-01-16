@@ -4,7 +4,7 @@ services:
   application_layer:
     container_name: application_layer
     build: application_layer/
-    command: bash -c 'while !</dev/tcp/project_db/5432; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0 --reload'
+    command: bash -c 'uvicorn app.main:app --host 0.0.0.0 --reload'
     networks:
       - backend-network
       - web
