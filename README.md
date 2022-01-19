@@ -31,7 +31,7 @@ docker-compose up
 docker-compose down
 ```
 
-![image info](./ssl_test.png)
+![image info](/ssl_test.png)
 
 __Reference:__
 
